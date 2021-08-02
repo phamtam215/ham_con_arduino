@@ -1,0 +1,42 @@
+#include "SPIFFS.h"
+#include <Arduino.h>
+#include <IRremoteESP8266.h>
+#include <IRsend.h>
+#include <IRutils.h>
+#include <IRrecv.h>
+
+#define but_1 23
+#define but_2 18
+#define LED1 22
+#define LED2 5
+bool learning = false; 
+void setup() {
+  Serial.begin(115200);   
+  pinMode (LED1, OUTPUT);
+  digitalWrite(LED1, LOW);
+  pinMode (but_1, INPUT_PULLUP); 
+  pinMode (but_2, INPUT_PULLUP); 
+}
+ 
+void loop() {
+ 
+  if (!digitalRead(but_1)){
+    delay(200);
+    if (!learning) {    
+    Serial.print ("hoc lenh");
+    learning = true;
+    digitalWrite (LED1, HIGH);
+    while (learning) {
+    if (!digitalRead(but_2)){
+        learning = false;
+        digitalWrite (LED1, LOW);
+     } else{
+         Serial.print ("trong while, ");
+     }    
+    }
+     Serial.print ("thoát while, ");
+    }   
+  }
+
+
+}
